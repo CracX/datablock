@@ -1,5 +1,5 @@
 MODEM_SIDE = "top"
-DATABASE_FILE = "database.txt"
+DATABASE_FILE = "example_database.txt"
 PROTOCOL = "DBDB"
 HOSTNAME = "WORKGROUP"
 READ_ONLY = false
@@ -13,7 +13,7 @@ ENCRYPTION_KEY = "9f8jhf98hu9f48jf934u8fhe9"
 CLIENT_CHAL_CODES = {}
 
 require "datablockdb"
-db = DataBlockDB:new(nil, 'example_database.txt')
+db = DataBlockDB:new(nil, DATABASE_FILE)
 
 function encrypt(data)
     local ciphertext = ""
