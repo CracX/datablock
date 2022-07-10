@@ -131,6 +131,7 @@ function client_handler(sender, message)
         log(sender, "Sent HEADERS")
         rednet.send(sender, db._headers, PROTOCOL)
         return true
+    end
 end
 
 log("SERVER", "Started listening...")
