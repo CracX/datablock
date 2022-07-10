@@ -142,6 +142,10 @@ function command_handler(cmd)
     end
 
     if cmd[1] == "headers" then
+        if not IS_CONNECTED then
+            print("[!] You are not connected")
+            return false
+        end
         print(get_headers())
     end
 
