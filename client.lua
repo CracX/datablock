@@ -45,11 +45,11 @@ function connect(host, username, password)
             c_id, msg, p = rednet.receive(PROTOCOL, 5)
         end
         CHAL_CODE = msg
-        rednet.send(host, ""..username.." "..encrypt(host,password..CHAL_CODE).." list", PROTOCOL)
+        rednet.send(host, ""..username.." "..encrypt(host,password..CHAL_CODE).." CONNECT", PROTOCOL)
         local c_id, msg, p = rednet.receive(PROTOCOL, 5)
         MESSAGE = msg
     else
-        rednet.send(host, ""..username.." "..password.." list", PROTOCOL)
+        rednet.send(host, ""..username.." "..password.." CONNECT", PROTOCOL)
         local c_id, msg, p = rednet.receive(PROTOCOL, 5)
         MESSAGE = msg
     end

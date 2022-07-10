@@ -116,8 +116,16 @@ function main()
     CLIENT_CHAL_CODES[sender] = nil
     table.remove(msg_split, 1)
     table.remove(msg_split, 1)
-    rednet.send(sender, "SUCCESS", PROTOCOL)
     log(sender, "Sent: ".. message)
+    client_handler(msg_split)
+end
+
+function client_handler(sender, message)
+    if message[1] == "CONNECT" then
+        log(sender, "Sent CONNECT check")
+        rednet.send(sender, "SUCCESS", PROTOCOL)
+        return true
+    end
 end
 
 log("SERVER", "Started listening...")
