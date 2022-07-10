@@ -30,7 +30,7 @@ Download the latest library file:
 ```lua
 wget https://raw.githubusercontent.com/CracX/datablock/master/datablockdb.lua
 ```
-Now thluaat you have the library file, you can importing into your Lua files by adding this to the top of them:
+Now that you have the library file, you can importing into your Lua files by adding this to the top of them:
 ```lua
 require "datablockdb"
 ```
