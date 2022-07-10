@@ -44,7 +44,8 @@ function connect(host, username, password)
             return "NO_ENCRYPTION_KEY"
         end
         IS_ENCRYPTED = true
-        c_id, msg, p = rednet.send(host, "CHALLENGE", PROTOCOL)
+        rednet.send(host, "CHALLENGE", PROTOCOL)
+        c_id, msg, p = rednet.recieve(PROTOCOL, 5)
         CHAL_CODE = msg
     end
 
