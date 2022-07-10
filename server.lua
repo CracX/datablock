@@ -71,7 +71,7 @@ function main()
         local client_chal_code = CLIENT_CHAL_CODES[client_id]
         if ENABLE_ENCRYPTION then
             if client_chal_code == nil then
-                if msg != "CHALLENGE" then
+                if not msg == "CHALLENGE" then
                     rednet.send(client_id, "NO_CHALLENGE_CODE", PROTOCOL)
                 else
                     CLIENT_CHAL_CODES[client_id] = generate_challenge_code(3)
@@ -104,7 +104,7 @@ function main()
                             end
                         end        
                     else
-                        if msg[2] != USER_PASS then
+                        if not msg[2] == USER_PASS then
                             rednet.send(client_id, "INVALID_CREDENTIALS", PROTOCOL)
                             restart_loop = true
                         end
