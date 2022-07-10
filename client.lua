@@ -56,10 +56,10 @@ function send_to_host(msg)
         return false
     end
     if not IS_ENCRYPTED then
-        rednet.send(host, ""..username.." "..password.." "..msg, PROTOCOL)
+        rednet.send(HOST, ""..USER_NAME.." "..USER_PASS.." "..msg, PROTOCOL)
         return true
     else
-        rednet.send(host, ""..username.." "..encrypt(host,password..get_chal_code()).." "..msg, PROTOCOL)
+        rednet.send(HOST, ""..USER_NAME.." "..encrypt(HOST,USER_PASS..get_chal_code()).." "..msg, PROTOCOL)
         return true
     end
 end
