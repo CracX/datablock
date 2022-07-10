@@ -65,57 +65,58 @@ end
 function main()
     rednet.open(MODEM_SIDE)
     rednet.host(PROTOCOL, HOSTNAME)
+    local restart_loop = false
     while true do
-        ::continue::
         local client_id, msg, prot = rednet.receive(PROTOCOL)
         local client_chal_code = CLIENT_CHAL_CODES[client_id]
         if ENABLE_ENCRYPTION then
             if client_chal_code == nil then
                 if msg != "CHALLENGE" then
                     rednet.send(client_id, "NO_CHALLENGE_CODE", PROTOCOL)
-                    goto continue
+                else
+                    CLIENT_CHAL_CODES[client_id] = generate_challenge_code(3)
+                    rednet.send(client_id, CLIENT_CHAL_CODES[client_id], PROTOCOL)
                 end
-                CLIENT_CHAL_CODES[client_id] = generate_challenge_code(3)
-                rednet.send(client_id, CLIENT_CHAL_CODES[client_id], PROTOCOL)
-                goto continue
+                restart_loop = true
             end
         end
 
-        msg_split = split_string(msg, " ")
-        if table_length(msg_split) < 2 do
-            rednet.send(client_id, "INVALID_CREDENTIALS", PROTOCOL)
-            goto continue
-        end
-
-        if msg_split[1] != USER_NAME then
-            rednet.send(client_id, "INVALID_CREDENTIALS", PROTOCOL)
-            goto continue
-        end
-
-        if ENABLE_ENCRYPTION then
-            local pass_raw = decrypt(msg[2])
-            local pass_chal = string.sub(pass_raw, -3,-1)
-            local pass_real = string.sub(pass_raw, 1:-4)
-
-            if pass_chal != CLIENT_CHAL_CODES[client_id] do
+        if not restart_loop then
+            msg_split = split_string(msg, " ")
+            if table_length(msg_split) < 2 do
                 rednet.send(client_id, "INVALID_CREDENTIALS", PROTOCOL)
-                goto continue
-            end
+            else
+                if msg_split[1] != USER_NAME then
+                    rednet.send(client_id, "INVALID_CREDENTIALS", PROTOCOL)
+                else
+                    if ENABLE_ENCRYPTION then
+                        local pass_raw = decrypt(msg[2])
+                        local pass_chal = string.sub(pass_raw, -3,-1)
+                        local pass_real = string.sub(pass_raw, 1:-4)
+        
+                        if pass_chal != CLIENT_CHAL_CODES[client_id] do
+                            rednet.send(client_id, "INVALID_CREDENTIALS", PROTOCOL)
+                            restart_loop = true
+                        else
+                            if pass_real != USER_PASS do
+                                rednet.send(client_id, "INVALID_CREDENTIALS", PROTOCOL)
+                                restart_loop = true
+                            end
+                        end        
+                    else
+                        if msg[2] != USER_PASS then
+                            rednet.send(client_id, "INVALID_CREDENTIALS", PROTOCOL)
+                            restart_loop = true
+                        end
+                    end
 
-            if pass_real != USER_PASS do
-                rednet.send(client_id, "INVALID_CREDENTIALS", PROTOCOL)
-                goto continue
-            end
-        else
-            if msg[2] != USER_PASS then
-                rednet.send(client_id, "INVALID_CREDENTIALS", PROTOCOL)
-                goto continue
+                    if not restart_loop then
+                        CLIENT_CHAL_CODES[client_id] = nil
+                        client_handler(client_id, msg_split)
+                    end
+                end
             end
         end
-
-        CLIENT_CHAL_CODES[client_id] = nil
-
-        client_handler(client_id, msg_split)
     end
 end
 
