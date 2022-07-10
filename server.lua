@@ -19,7 +19,7 @@ function encrypt(data)
     local ciphertext = ""
     local _ = 1
     for c in data:gmatch"." do
-        ciphertext = ciphertext .. (string.byte(c) ~ string.byte(string.sub(ENCRYPTION_KEY,_,_))) .. ","
+        ciphertext = ciphertext .. (bit.bxor(string.byte(c), string.byte(string.sub(ENCRYPTION_KEY,_,_)))) .. ","
         _ = _ + 1
     end
     return string.sub(ciphertext, 1,-2)
@@ -29,7 +29,7 @@ function decrypt(data)
     local plaintext = ""
     local _ = 1
     for c in data:gmatch"([^,]+)" do
-        plaintext = plaintext .. string.char(tonumber(c) ~ string.byte(string.sub(ENCRYPTION_KEY,_,_)))
+        plaintext = plaintext .. string.char(bit.bxor(tonumber(c), string.byte(string.sub(ENCRYPTION_KEY,_,_))))
         _ = _ + 1
     end
     return plaintext

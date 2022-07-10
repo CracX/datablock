@@ -42,6 +42,7 @@ function connect(host, username, password)
     if msg == "NO_CHALLENGE_CODE" then
         if ENCRYPTION_KEYS[host] == nil then
             return "NO_ENCRYPTION_KEY"
+        end
         IS_ENCRYPTED = true
         c_id, msg, p = rednet.send(host, "CHALLENGE", PROTOCOL)
         CHAL_CODE = msg
