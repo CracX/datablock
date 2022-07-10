@@ -49,7 +49,7 @@ function connect(host, username, password)
         CHAL_CODE = msg
     end
 
-    c_id, msg, p = rednet.send(host, ""..username.." "..encrypt(host, password..CHAL_CODE).." list", PROTOCOL)
+    c_id, msg, p = rednet.send(host, ""..username.." "..encrypt(password..CHAL_CODE).." list", PROTOCOL)
     IS_CONNECTED = true
     return msg
 end
