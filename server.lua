@@ -14,6 +14,7 @@ CLIENT_CHAL_CODES = {}
 
 require "datablockdb"
 db = DataBlockDB:new(nil, DATABASE_FILE)
+math.randomseed(os.time())
 
 function encrypt(data)
     local ciphertext = ""
@@ -55,13 +56,8 @@ function split_string(inputstr, sep)
 end
 
 function generate_challenge_code(size)
-    size = size or 3
-    math.randomseed(os.time())
-    local code = math.floor(math.random() * 1000)
-    if string.len(""..code) > size then
-        code = code - 1
-    end
-    return code
+    --size = size or 3
+    return math.random(100, 999)
 end
 
 function log(client_id, message)
