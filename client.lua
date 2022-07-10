@@ -34,6 +34,7 @@ function decrypt(host_id, data)
 end
 
 function connect(host, username, password)
+    local MESSAGE = nil
     rednet.open(MODEM_SIDE)
     if ENCRYPTION_KEYS[host] ~= nil then
         IS_ENCRYPTED = true
@@ -41,8 +42,11 @@ function connect(host, username, password)
         local c_id, msg, p = rednet.receive(PROTOCOL, 5)
         CHAL_CODE = msg
         rednet.send(host, ""..username.." "..encrypt(host,password..CHAL_CODE).." list", PROTOCOL)
+        local c_id, msg, p = rednet.receive(PROTOCOL, 5)
+        MESSAGE = msg
     else
         rednet.send(host, ""..username.." "..password.." list", PROTOCOL)
+        MESSAGE = msg
     end
 
     local c_id, msg, p = rednet.receive(PROTOCOL, 5)
