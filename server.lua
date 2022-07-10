@@ -116,8 +116,8 @@ function main()
     CLIENT_CHAL_CODES[sender] = nil
     table.remove(msg_split, 1)
     table.remove(msg_split, 1)
-    log(sender, "Sent: ".. message)
-    client_handler(msg_split)
+    --log(sender, "Sent: ".. message)
+    client_handler(sender, msg_split)
 end
 
 function client_handler(sender, message)
