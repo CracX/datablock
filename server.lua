@@ -112,6 +112,7 @@ function main()
     CLIENT_CHAL_CODES[sender] = nil
     table.remove(msg_split, 1)
     table.remove(msg_split, 1)
+    rednet.send(sender, "INVALID_CREDENTIALS", PROTOCOL)
     log(sender, "Sent: ".. message)
 end
 
