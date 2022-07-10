@@ -84,6 +84,6 @@ DataBlockDB:insert(data)
 
 <h1 align="center">⚠️ Limitations</h1>
 
-- DBDB cannot guess what datatype is every column, so it defaults every value type to be string.
+- DBDB cannot guess what datatype is in every column, so it defaults every value type to be string.
 - When inserting data, you cannot use commas (,) as part of the value due to how CSV parsing works.
 - DBDB cannot manage more than one database per instance, but this can be overcome with using multiple DBDB objects for each database file.
