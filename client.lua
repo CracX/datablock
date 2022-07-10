@@ -44,6 +44,26 @@ function decrypt(host_id, data)
     return plaintext
 end
 
+function get_chal_code()
+    rednet.send(host, "CHALLENGE", PROTOCOL)
+    local c_id, msg, p = rednet.receive(PROTOCOL, 5)
+    CHAL_CODE = msg
+    return CHAL_CODE
+end
+
+function send_to_host(msg)
+    if not IS_CONNECTED then
+        return false
+    end
+    if not IS_ENCRYPTED then
+        rednet.send(host, ""..username.." "..password.." "..msg, PROTOCOL)
+        return true
+    else
+        rednet.send(host, ""..username.." "..encrypt(host,password..get_chal_code()).." "..msg, PROTOCOL)
+        return true
+    end
+end
+
 function connect(host, username, password)
     local MESSAGE = nil
     rednet.open(MODEM_SIDE)
@@ -83,6 +103,12 @@ function connect(host, username, password)
     return MESSAGE
 end
 
+function get_headers()
+    send_to_host("HEADERS")
+    local c_id, msg, p = rednet.receive(PROTOCOL, 5)
+    return msg
+end
+
 function command_handler(cmd)
     if cmd[1] == "connect" then
         if IS_CONNECTED then
@@ -114,6 +140,11 @@ function command_handler(cmd)
         return true
 
     end
+
+    if cmd[1] == "headers" then
+        print(get_headers())
+    end
+
     print("[!] Unknown command: "..cmd[1])
     return false
 end

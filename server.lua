@@ -126,6 +126,11 @@ function client_handler(sender, message)
         rednet.send(sender, "SUCCESS", PROTOCOL)
         return true
     end
+
+    if message[1] == "HEADERS" then
+        log(sender, "Sent HEADERS")
+        rednet.send(sender, db._headers, PROTOCOL)
+        return true
 end
 
 log("SERVER", "Started listening...")
