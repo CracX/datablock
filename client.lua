@@ -43,6 +43,7 @@ function connect(host, username, password)
         if msg == nil then
             rednet.send(host, "CHALLENGE", PROTOCOL)
             c_id, msg, p = rednet.receive(PROTOCOL, 5)
+        end
         CHAL_CODE = msg
         rednet.send(host, ""..username.." "..encrypt(host,password..CHAL_CODE).." list", PROTOCOL)
         local c_id, msg, p = rednet.receive(PROTOCOL, 5)
