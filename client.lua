@@ -45,7 +45,7 @@ function decrypt(host_id, data)
 end
 
 function get_chal_code()
-    rednet.send(host, "CHALLENGE", PROTOCOL)
+    rednet.send(HOST, "CHALLENGE", PROTOCOL)
     local c_id, msg, p = rednet.receive(PROTOCOL, 5)
     CHAL_CODE = msg
     return CHAL_CODE
