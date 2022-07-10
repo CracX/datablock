@@ -16,18 +16,18 @@ DBDB (DataBlockDB) works with saving all the data in a comma separated fasion in
 
 <h1 align="center">🛠️ Setup</h1>
 Go into your Minecraft world, open up your CC computer, and create a directory:
-```
+```lua
 mkdir mydir
 ```
 Go into your directory: 
-```
+```lua
 cd mydir
 ```
 Download the latest library file:
-```
+```lua
 wget https://raw.githubusercontent.com/CracX/datablock/master/datablockdb.lua
 ```
-Now that you have the library file, you can importing into your Lua files by adding this to the top of them:
+Now thluaat you have the library file, you can importing into your Lua files by adding this to the top of them:
 ```lua
 require "datablockdb"
 ```
@@ -35,7 +35,7 @@ Before you start managing your database, you need to first create the database f
 
 In this file, you need to define the headers before you can do any kind of operation. Headers are like lables for each column of the table.
 Lets do an example and put this in our `database.txt` file:
-```
+```lua
 id,first_name,last_name,money
 ```
 Now that we have everything ready, all that is left to do is to create a `DataBlockDB` object. Go into your Lua file and after you imported the library, do:
