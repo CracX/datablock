@@ -97,7 +97,7 @@ function main()
         raw_pass = decrypt(raw_pass)
         -- TODO: Add password length requirements 
         local raw_pass_challenge, raw_pass_real = string.sub(raw_pass, -3, -1), string.sub(raw_pass, 1, -4)
-        if raw_user ~= USER_NAME or raw_pass_real ~= USER_PASS then
+        if raw_user ~= USER_NAME or raw_pass_real ~= USER_PASS or tonumber(raw_pass_challenge) ~= CLIENT_CHAL_CODES[sender] then
             log(sender, "Sent invalid credentials")
             rednet.send(sender, "INVALID_CREDENTIALS", PROTOCOL)
             return false
