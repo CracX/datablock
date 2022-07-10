@@ -14,7 +14,7 @@ While playing around with this mod, I wanted to create a Bank system for players
 
 DBDB (DataBlockDB) works with saving all the data in a comma separated fasion in any file. Think of .csv files. This pretty much IS a glorified csv file parser.
 
-# 🛠️ Setup
+<h1 align="center">🛠️ Setup</h1>
 Go into your Minecraft world, open up your CC computer, and create a directory:
 ```
 mkdir mydir
@@ -44,7 +44,7 @@ db = DataBlockDB:new(nil, "/mydir/database.txt")
 ```
 Do note that the second parameter NEEDS to be an absolute path to your database file.
 
-# 📓 Usage
+<h1 align="center">📓 Usage</h1>
 
 To create a library object:
 ```lua
@@ -79,7 +79,8 @@ To insert new data:
 DataBlockDB:insert(data)
 ```
 
-# ⚠️ Limitations
+<h1 align="center">⚠️ Limitations</h1>
+
 - DBDB cannot guess what datatype is every column, so it defaults every value type to be string.
 - When inserting data, you cannot use commas (,) as part of the value due to how CSV parsing works.
 - DBDB cannot manage more than one database per instance, but this can be overcome with using multiple DBDB objects for each database file.
