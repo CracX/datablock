@@ -157,6 +157,30 @@ function command_handler(cmd)
         return true
     end
 
+    if cmd[1] == "get_row" then
+        if not IS_CONNECTED then
+            print("[!] You are not connected")
+            return false
+        end
+
+        if #cmd < 3 then
+            print("[!] Usage: get_row <header> <value>")
+            return false
+        end
+        local full_str = ""
+        local res = send_to_host("GET_ROW_BY_HEADER "..cmd[2].." "....cmd[3])
+        if #res < 1 then
+            print("None")
+            return false
+        end
+
+        for key,value in pairs(res) do
+            full_str = full_str..key.." "
+        end
+        print(string.sub(full_str, 1,-2))
+        return true
+    end
+
     print("[!] Unknown command: "..cmd[1])
     return false
 end
