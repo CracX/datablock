@@ -121,7 +121,7 @@ function DataBlockDB:find_row_by_header(header, header_value)
             end
         end
     end
-    return nil
+    return {}
 end
 
 function DataBlockDB:find_rows_by_header(header, header_value)
@@ -141,7 +141,7 @@ function DataBlockDB:find_rows_by_header(header, header_value)
         end
     end
     if self:table_length(_tables) == 0 then
-        return nil
+        return {}
     end
     return _tables
 end
@@ -159,26 +159,29 @@ function DataBlockDB:delete_row_by_header(header, header_value)
             if _value_id == _h_id and _value == header_value then
                 table.remove(self._db, _table_id)
                 self:dump_db(self._filename, headers, self._db)
-                return self._db
+                return true
             end
         end
     end
-    return nil
+    return false
 end
 
 function DataBlockDB:update_row_by_header(find_header, find_value, update_header, update_value)
     local _row = self:find_row_by_header(find_header, find_value)
     if _row == nil then
-        return nil
+        return false
     end
 
     self._db[_row.table_id][self:get_header_id(update_header)] = update_value
     self:dump_db()
-    return self._db
+    return true
 end
 
 function DataBlockDB:insert(data)
+    if #data ~= #self._headers then
+        return false
+    end
     table.insert(self._db, data)
     self:dump_db()
-    return data
+    return true
 end

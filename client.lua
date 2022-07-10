@@ -10,6 +10,7 @@ CHAL_CODE = nil
 HOST = nil
 USER_NAME = nil
 USER_PASS = nil
+HEADERS = nil
 
 function split_string(inputstr, sep)
     if sep == nil then
@@ -100,12 +101,14 @@ function connect(host, username, password)
     HOST = host
     USER_NAME = username
     USER_PASS = password
+    get_headers()
     return MESSAGE
 end
 
 function get_headers()
     send_to_host("HEADERS")
     local c_id, msg, p = rednet.receive(PROTOCOL, 5)
+    HEADERS = msg
     return msg
 end
 

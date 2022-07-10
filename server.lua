@@ -116,7 +116,6 @@ function main()
     CLIENT_CHAL_CODES[sender] = nil
     table.remove(msg_split, 1)
     table.remove(msg_split, 1)
-    --log(sender, "Sent: ".. message)
     client_handler(sender, msg_split)
 end
 
@@ -130,6 +129,57 @@ function client_handler(sender, message)
     if message[1] == "HEADERS" then
         log(sender, "Sent HEADERS")
         rednet.send(sender, db._headers, PROTOCOL)
+        return true
+    end
+
+    if message[1] == "GET_ROW_BY_HEADER" then
+        log(sender, "Sent GET_ROW_BY_HEADER")
+        if #message < 3 then
+            rednet.send(sender, "INVALID_SYNTAX", PROTOCOL)
+            log(sender, "Invalid syntax")
+            return
+        rednet.send(sender, db:find_row_by_header(tostring(message[2]),tostring(message[3])), PROTOCOL)
+        return true
+    end
+    
+    if message[1] == "GET_ROWS_BY_HEADER" then
+        log(sender, "Sent GET_ROWS_BY_HEADER")
+        if #message < 3 then
+            rednet.send(sender, "INVALID_SYNTAX", PROTOCOL)
+            log(sender, "Invalid syntax")
+            return
+        rednet.send(sender, db:find_rows_by_header(tostring(message[2]),tostring(message[3])), PROTOCOL)
+        return true
+    end
+
+    if message[1] == "DELETE_ROW_BY_HEADER" then
+        log(sender, "Sent DELETE_ROW_BY_HEADER")
+        if #message < 3 then
+            rednet.send(sender, "INVALID_SYNTAX", PROTOCOL)
+            log(sender, "Invalid syntax")
+            return
+        rednet.send(sender, db:delete_row_by_header(tostring(message[2]),tostring(message[3])), PROTOCOL)
+        return true
+    end
+
+    if message[1] == "UPDATE_ROW_BY_HEADER" then
+        log(sender, "Sent UPDATE_ROW_BY_HEADER")
+        if #message < 5 then
+            rednet.send(sender, "INVALID_SYNTAX", PROTOCOL)
+            log(sender, "Invalid syntax")
+            return
+        rednet.send(sender, db:update_row_by_header(tostring(message[2]),tostring(message[3]), tostring(message[4]), tostring(message[5])), PROTOCOL)
+        return true
+    end
+
+    if message[1] == "INSERT" then
+        log(sender, "Sent INSERT")
+        if #message < 2 then
+            rednet.send(sender, "INVALID_SYNTAX", PROTOCOL)
+            log(sender, "Invalid syntax")
+            return
+        
+        rednet.send(sender, db:insert(split_string(message[2], ',')), PROTOCOL)
         return true
     end
 end
