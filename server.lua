@@ -86,7 +86,7 @@ function main()
             if table_length(msg_split) < 2 do
                 rednet.send(client_id, "INVALID_CREDENTIALS", PROTOCOL)
             else
-                if msg_split[1] != USER_NAME then
+                if not msg_split[1] == USER_NAME then
                     rednet.send(client_id, "INVALID_CREDENTIALS", PROTOCOL)
                 else
                     if ENABLE_ENCRYPTION then
@@ -94,11 +94,11 @@ function main()
                         local pass_chal = string.sub(pass_raw, -3,-1)
                         local pass_real = string.sub(pass_raw, 1:-4)
         
-                        if pass_chal != CLIENT_CHAL_CODES[client_id] do
+                        if not pass_chal == CLIENT_CHAL_CODES[client_id] do
                             rednet.send(client_id, "INVALID_CREDENTIALS", PROTOCOL)
                             restart_loop = true
                         else
-                            if pass_real != USER_PASS do
+                            if not pass_real == USER_PASS do
                                 rednet.send(client_id, "INVALID_CREDENTIALS", PROTOCOL)
                                 restart_loop = true
                             end
