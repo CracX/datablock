@@ -40,6 +40,9 @@ function connect(host, username, password)
         IS_ENCRYPTED = true
         rednet.send(host, "CHALLENGE", PROTOCOL)
         local c_id, msg, p = rednet.receive(PROTOCOL, 5)
+        if msg == nil then
+            rednet.send(host, "CHALLENGE", PROTOCOL)
+            c_id, msg, p = rednet.receive(PROTOCOL, 5)
         CHAL_CODE = msg
         rednet.send(host, ""..username.." "..encrypt(host,password..CHAL_CODE).." list", PROTOCOL)
         local c_id, msg, p = rednet.receive(PROTOCOL, 5)
