@@ -18,6 +18,7 @@ db = DataBlockDB:new(nil, DATABASE_FILE)
 function encrypt(data)
     local ciphertext = ""
     local _ = 1
+    data = ""..data
     for c in data:gmatch"." do
         ciphertext = ciphertext .. (bit.bxor(string.byte(c), string.byte(string.sub(ENCRYPTION_KEY,_,_)))) .. ","
         _ = _ + 1
@@ -28,6 +29,7 @@ end
 function decrypt(data)
     local plaintext = ""
     local _ = 1
+    data = ""..data
     for c in data:gmatch"([^,]+)" do
         plaintext = plaintext .. string.char(bit.bxor(tonumber(c), string.byte(string.sub(ENCRYPTION_KEY,_,_))))
         _ = _ + 1

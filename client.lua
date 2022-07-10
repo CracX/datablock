@@ -14,6 +14,7 @@ USER_PASS = nil
 function encrypt(host_id, data)
     local ciphertext = ""
     local _ = 1
+    data = ""..data
     for c in data:gmatch"." do
         ciphertext = ciphertext .. bit.bxor(string.byte(c), string.byte(string.sub(ENCRYPTION_KEY,_,_))) .. ","
         _ = _ + 1
@@ -24,6 +25,7 @@ end
 function decrypt(data)
     local plaintext = ""
     local _ = 1
+    data = ""..data
     for c in data:gmatch"([^,]+)" do
         plaintext = plaintext .. string.char(bit.bxor(tonumber(c), string.byte(string.sub(ENCRYPTION_KEY,_,_))))
         _ = _ + 1
@@ -49,7 +51,7 @@ function connect(host, username, password)
         CHAL_CODE = msg
     end
 
-    c_id, msg, p = rednet.send(host, ""..username.." "..encrypt(password..CHAL_CODE).." list", PROTOCOL)
+    c_id, msg, p = rednet.send(host, ""..username.." "..encrypt(host,password..CHAL_CODE).." list", PROTOCOL)
     IS_CONNECTED = true
     return msg
 end
