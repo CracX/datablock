@@ -87,7 +87,7 @@ function main()
         log(sender, "No challenge code found")
         rednet.send(sender, "NO_CHALLENGE_CODE", PROTOCOL)
         return false
-
+    end
     local raw_user, raw_pass = msg_split[1], msg_split[2]
 
     if ENABLE_ENCRYPTION then
