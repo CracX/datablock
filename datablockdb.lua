@@ -158,7 +158,7 @@ function DataBlockDB:delete_row_by_header(header, header_value)
         for _value_id, _value in pairs(_table) do
             if _value_id == _h_id and _value == header_value then
                 table.remove(self._db, _table_id)
-                self:dump_db('database.txt', headers, self._db)
+                self:dump_db(self._filename, headers, self._db)
                 return self._db
             end
         end
