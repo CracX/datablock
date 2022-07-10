@@ -28,7 +28,7 @@ cd mydir
 Download the latest library file:
 
 ```lua
-wget https://raw.githubusercontent.com/CracX/datablock/master/datablockdb.lua
+wget https://raw.githubusercontent.com/deepriverproject/datablock/master/datablockdb.lua
 ```
 Now that you have the library file, you can import it into your Lua files by adding this to the top of them:
 ```lua
