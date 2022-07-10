@@ -35,23 +35,31 @@ end
 
 function connect(host, username, password)
     rednet.open(MODEM_SIDE)
-    rednet.send(host, ""..username.." "..password.." list", PROTOCOL)
+    if ENCRYPTION_KEYS[host] ~= nil then
+        IS_ENCRYPTED = true
+        rednet.send(host, "CHALLENGE", PROTOCOL)
+        local c_id, msg, p = rednet.receive(PROTOCOL, 5)
+        CHAL_CODE = msg
+        rednet.send(host, ""..username.." "..encrypt(host,password..CHAL_CODE).." list", PROTOCOL)
+    else
+        rednet.send(host, ""..username.." "..password.." list", PROTOCOL)
+    end
+
     local c_id, msg, p = rednet.receive(PROTOCOL, 5)
     if msg == nil then
         return "TIMEOUT"
     end
 
     if msg == "NO_CHALLENGE_CODE" then
-        if ENCRYPTION_KEYS[host] == nil then
-            return "NO_ENCRYPTION_KEY"
-        end
-        IS_ENCRYPTED = true
-        rednet.send(host, "CHALLENGE", PROTOCOL)
-        c_id, msg, p = rednet.receive(PROTOCOL, 5)
-        CHAL_CODE = msg
+        return "NO_ENCRYPTION_KEY"
     end
 
-    c_id, msg, p = rednet.send(host, ""..username.." "..encrypt(host,password..CHAL_CODE).." list", PROTOCOL)
+    if msg == "INVALID_CREDENTIALS" then
+        return "INVALID_CREDENTIALS"
+    end
     IS_CONNECTED = true
+    HOST = host
+    USER_NAME = username
+    USER_PASS = password
     return msg
 end
