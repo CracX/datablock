@@ -46,24 +46,24 @@ function connect(host, username, password)
         MESSAGE = msg
     else
         rednet.send(host, ""..username.." "..password.." list", PROTOCOL)
+        local c_id, msg, p = rednet.receive(PROTOCOL, 5)
         MESSAGE = msg
     end
 
-    local c_id, msg, p = rednet.receive(PROTOCOL, 5)
-    if msg == nil then
+    if MESSAGE == nil then
         return "TIMEOUT"
     end
 
-    if msg == "NO_CHALLENGE_CODE" then
+    if MESSAGE == "NO_CHALLENGE_CODE" then
         return "NO_ENCRYPTION_KEY"
     end
 
-    if msg == "INVALID_CREDENTIALS" then
+    if MESSAGE == "INVALID_CREDENTIALS" then
         return "INVALID_CREDENTIALS"
     end
     IS_CONNECTED = true
     HOST = host
     USER_NAME = username
     USER_PASS = password
-    return msg
+    return MESSAGE
 end
