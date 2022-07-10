@@ -32,7 +32,7 @@ function decrypt(data)
     local _ = 1
     data = ""..data
     for c in data:gmatch"([^,]+)" do
-        if c == nil do
+        if c == nil then
             return nil
         end
         plaintext = plaintext .. string.char(bit.bxor(tonumber(c), string.byte(string.sub(ENCRYPTION_KEY,_,_))))
