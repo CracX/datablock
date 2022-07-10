@@ -70,6 +70,7 @@ function log(client_id, message)
 end
 
 function main()
+    rednet.open(MODEM_SIDE)
     local event, sender, message, protocol = os.pullEvent("rednet_message")
     if protocol ~= PROTOCOL then
         log(sender, "Failed to connected with protocol "..protocol)
@@ -108,9 +109,10 @@ function main()
             return false
         end
     end
+    CLIENT_CHAL_CODES[sender] = nil
     table.remove(msg_split, 1)
     table.remove(msg_split, 1)
-    log(sender, "Sent: ".. msg)
+    log(sender, "Sent: ".. message)
 end
 
 log("SERVER", "Started listening...")

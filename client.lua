@@ -16,18 +16,18 @@ function encrypt(host_id, data)
     local _ = 1
     data = ""..data
     for c in data:gmatch"." do
-        ciphertext = ciphertext .. bit.bxor(string.byte(c), string.byte(string.sub(ENCRYPTION_KEY,_,_))) .. ","
+        ciphertext = ciphertext .. bit.bxor(string.byte(c), string.byte(string.sub(ENCRYPTION_KEYS[host_id],_,_))) .. ","
         _ = _ + 1
     end
     return string.sub(ciphertext, 1,-2)
 end
 
-function decrypt(data)
+function decrypt(host_id, data)
     local plaintext = ""
     local _ = 1
     data = ""..data
     for c in data:gmatch"([^,]+)" do
-        plaintext = plaintext .. string.char(bit.bxor(tonumber(c), string.byte(string.sub(ENCRYPTION_KEY,_,_))))
+        plaintext = plaintext .. string.char(bit.bxor(tonumber(c), string.byte(string.sub(ENCRYPTION_KEYS[host_id],_,_))))
         _ = _ + 1
     end
     return plaintext
@@ -36,7 +36,7 @@ end
 function connect(host, username, password)
     rednet.open(MODEM_SIDE)
     rednet.send(host, ""..username.." "..password.." list", PROTOCOL)
-    c_id, msg, p = rednet.receive(PROTOCOL, 5)
+    local c_id, msg, p = rednet.receive(PROTOCOL, 5)
     if msg == nil then
         return "TIMEOUT"
     end
