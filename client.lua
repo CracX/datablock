@@ -168,7 +168,7 @@ function command_handler(cmd)
             return false
         end
         local full_str = ""
-        local res = send_to_host("GET_ROW_BY_HEADER "..cmd[2].." "....cmd[3])
+        local res = send_to_host("GET_ROW_BY_HEADER "..cmd[2].." "..cmd[3])
         if #res < 1 then
             print("None")
             return false

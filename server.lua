@@ -137,7 +137,7 @@ function client_handler(sender, message)
         if #message < 3 then
             rednet.send(sender, "INVALID_SYNTAX", PROTOCOL)
             log(sender, "Invalid syntax")
-            return
+            return false
         rednet.send(sender, db:find_row_by_header(tostring(message[2]),tostring(message[3])), PROTOCOL)
         return true
     end
@@ -147,7 +147,7 @@ function client_handler(sender, message)
         if #message < 3 then
             rednet.send(sender, "INVALID_SYNTAX", PROTOCOL)
             log(sender, "Invalid syntax")
-            return
+            return false
         rednet.send(sender, db:find_rows_by_header(tostring(message[2]),tostring(message[3])), PROTOCOL)
         return true
     end
@@ -157,7 +157,7 @@ function client_handler(sender, message)
         if #message < 3 then
             rednet.send(sender, "INVALID_SYNTAX", PROTOCOL)
             log(sender, "Invalid syntax")
-            return
+            return false
         rednet.send(sender, db:delete_row_by_header(tostring(message[2]),tostring(message[3])), PROTOCOL)
         return true
     end
@@ -167,7 +167,7 @@ function client_handler(sender, message)
         if #message < 5 then
             rednet.send(sender, "INVALID_SYNTAX", PROTOCOL)
             log(sender, "Invalid syntax")
-            return
+            return false
         rednet.send(sender, db:update_row_by_header(tostring(message[2]),tostring(message[3]), tostring(message[4]), tostring(message[5])), PROTOCOL)
         return true
     end
@@ -177,7 +177,7 @@ function client_handler(sender, message)
         if #message < 2 then
             rednet.send(sender, "INVALID_SYNTAX", PROTOCOL)
             log(sender, "Invalid syntax")
-            return
+            return false
         
         rednet.send(sender, db:insert(split_string(message[2], ',')), PROTOCOL)
         return true
