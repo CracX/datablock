@@ -7,7 +7,7 @@
 ![GitHub repo size](https://img.shields.io/github/repo-size/CracX/datablock?label=Size)
 ![Latest Release](https://badgen.net/badge/Latest%20release/v1.0.0/green?icon=github)
 
-# 🔎 What is DataBlockDB?
+<h1 align="center">🔎 What is DataBlockDB?</h1>
 DataBlock is a database management framework written purely in Lua and compatitable with CCTweaked mod. CCTweaked is a fork of a ComputerCraft mod and gives players the ability to work with computers in Minecraft.
 
 While playing around with this mod, I wanted to create a Bank system for players to be able to transact digital money in-game. However, this meant that I would somehow need to manage players money and save their account status without using some 3rd party plugins. This is where the idea of a database framework in minecraft came from.
