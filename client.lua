@@ -11,6 +11,17 @@ HOST = nil
 USER_NAME = nil
 USER_PASS = nil
 
+function split_string(inputstr, sep)
+    if sep == nil then
+        sep = "%s"
+    end
+    local t={}
+    for str in string.gmatch(inputstr, "([^"..sep.."]+)") do
+            table.insert(t, str)
+    end
+    return t
+end
+
 function encrypt(host_id, data)
     local ciphertext = ""
     local _ = 1
@@ -71,3 +82,55 @@ function connect(host, username, password)
     USER_PASS = password
     return MESSAGE
 end
+
+function command_handler(cmd)
+    if cmd[1] == "connect" then
+        if IS_CONNECTED then
+            print("[!] You are already connected")
+            return false
+        end
+        if #cmd < 4 then
+            print("[!] Usage: connect <host_id> <username> <password>")
+            return false
+        end
+        local res = connect(cmd[2], cmd[3], cmd[4])
+        print("[*] Got message: "..res)
+        return true
+    end
+
+    if cmd[1] == "disconnect" then
+        if not IS_CONNECTED then
+            print("[!] You are not connected")
+            return false
+        end
+
+        IS_CONNECTED = false
+        IS_ENCRYPTED = false
+        CHAL_CODE = nil
+        HOST = nil
+        USER_NAME = nil
+        USER_PASS = nil
+        print("[*] Disconnected")
+        return true
+
+    end
+    print("[!] Unknown command: "..cmd[1])
+    return false
+end
+
+function client_loop()
+    while true do
+        print("DB >")
+        local inp = io.stdin:read()
+        local inp_split = split_string(inp, " ")
+
+        if inp == "exit" or inp == "quit" then
+            break
+        end
+        command_handler(inp_split)
+    end
+    print("Bye")
+    return true
+end
+
+client_loop()
