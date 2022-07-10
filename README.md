@@ -16,14 +16,17 @@ DBDB (DataBlockDB) works with saving all the data in a comma separated fasion in
 
 <h1 align="center">🛠️ Setup</h1>
 Go into your Minecraft world, open up your CC computer, and create a directory:
+
 ```lua
 mkdir mydir
 ```
 Go into your directory: 
+
 ```lua
 cd mydir
 ```
 Download the latest library file:
+
 ```lua
 wget https://raw.githubusercontent.com/CracX/datablock/master/datablockdb.lua
 ```
