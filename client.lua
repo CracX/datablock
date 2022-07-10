@@ -93,7 +93,7 @@ function command_handler(cmd)
             print("[!] Usage: connect <host_id> <username> <password>")
             return false
         end
-        local res = connect(cmd[2], cmd[3], cmd[4])
+        local res = connect(tonumber(cmd[2]), cmd[3], cmd[4])
         print("[*] Got message: "..res)
         return true
     end
@@ -120,7 +120,11 @@ end
 
 function client_loop()
     while true do
-        print("DB >")
+        if IS_CONNECTED then
+            io.stdout:write("DB ["..HOST.."]>")
+        else
+            io.stdout:write("DB >")
+        end
         local inp = io.stdin:read()
         local inp_split = split_string(inp, " ")
 
