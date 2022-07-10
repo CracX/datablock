@@ -170,12 +170,12 @@ function command_handler(cmd)
         local full_str = ""
         send_to_host("GET_ROW_BY_HEADER "..cmd[2].." "..cmd[3])
         local c_id, msg, p = rednet.receive(PROTOCOL, 5)
-        if #msg < 1 then
+        if msg.table == nil then
             print("None")
             return false
         end
 
-        for key,value in pairs(msg) do
+        for key,value in pairs(msg.table) do
             full_str = full_str..key.." "
         end
         print(string.sub(full_str, 1,-2))
