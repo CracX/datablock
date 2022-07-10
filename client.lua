@@ -146,7 +146,12 @@ function command_handler(cmd)
             print("[!] You are not connected")
             return false
         end
-        print(get_headers())
+        local full_str = ""
+        for key,value in pairs(get_headers()) do
+            full_str = full_str..key.." "
+        end
+        print(string.sub(full_str, 1,-2))
+        return true
     end
 
     print("[!] Unknown command: "..cmd[1])
