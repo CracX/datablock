@@ -62,66 +62,56 @@ function generate_challenge_code(size)
     return code
 end
 
-function main()
-    rednet.open(MODEM_SIDE)
-    rednet.host(PROTOCOL, HOSTNAME)
-    local restart_loop = false
-    while true do
-        local client_id, msg, prot = rednet.receive(PROTOCOL)
-        local client_chal_code = CLIENT_CHAL_CODES[client_id]
-        if ENABLE_ENCRYPTION then
-            if client_chal_code == nil then
-                if not msg == "CHALLENGE" then
-                    rednet.send(client_id, "NO_CHALLENGE_CODE", PROTOCOL)
-                else
-                    CLIENT_CHAL_CODES[client_id] = generate_challenge_code(3)
-                    rednet.send(client_id, CLIENT_CHAL_CODES[client_id], PROTOCOL)
-                end
-                restart_loop = true
-            end
-        end
-
-        if not restart_loop then
-            msg_split = split_string(msg, " ")
-            if table_length(msg_split) < 2 then
-                rednet.send(client_id, "INVALID_CREDENTIALS", PROTOCOL)
-            else
-                if not msg_split[1] == USER_NAME then
-                    rednet.send(client_id, "INVALID_CREDENTIALS", PROTOCOL)
-                else
-                    if ENABLE_ENCRYPTION then
-                        local pass_raw = decrypt(msg[2])
-                        local pass_chal = string.sub(pass_raw, -3,-1)
-                        local pass_real = string.sub(pass_raw, 1,-4)
-        
-                        if not pass_chal == CLIENT_CHAL_CODES[client_id] then
-                            rednet.send(client_id, "INVALID_CREDENTIALS", PROTOCOL)
-                            restart_loop = true
-                        else
-                            if not pass_real == USER_PASS then
-                                rednet.send(client_id, "INVALID_CREDENTIALS", PROTOCOL)
-                                restart_loop = true
-                            end
-                        end        
-                    else
-                        if not msg[2] == USER_PASS then
-                            rednet.send(client_id, "INVALID_CREDENTIALS", PROTOCOL)
-                            restart_loop = true
-                        end
-                    end
-
-                    if not restart_loop then
-                        CLIENT_CHAL_CODES[client_id] = nil
-                        client_handler(client_id, msg_split)
-                    end
-                end
-            end
-        end
-    end
+function log(client_id, message)
+    print("[Client #"..client_id.."] "..message)
+    return true
 end
 
-function client_handler(client_id, msg)
-    print(msg)
-    rednet.send(client_id, "SUCCESS", PROTOCOL)
-    return true
+function main()
+    local event, sender, message, protocol = os.pullEvent("rednet_message")
+    if protocol ~= PROTOCOL then
+        log(sender, "Failed to connected with protocol "..protocol)
+        return false
+    end
+    log(sender, "Connected with protocol "..protocol)
+
+    msg_split = split_string(message, ' ')
+    if message == "CHALLENGE" then
+        log(sender, "Generated new challenge code")
+        CLIENT_CHAL_CODES[sender] = generate_challenge_code(3)
+        rednet.send(sender, CLIENT_CHAL_CODES[sender], PROTOCOL)
+        return true
+    end
+
+    if ENABLE_ENCRYPTION and CLIENT_CHAL_CODES[sender] == nil then
+        log(sender, "No challenge code found")
+        rednet.send(sender, "NO_CHALLENGE_CODE", PROTOCOL)
+        return false
+
+    local raw_user, raw_pass = msg_split[1], msg_split[2]
+
+    if ENABLE_ENCRYPTION then
+        raw_pass = decrypt(raw_pass)
+        -- TODO: Add password length requirements 
+        local raw_pass_challenge, raw_pass_real = string.sub(raw_pass, -3, -1), string.sub(raw_pass, 1, -4)
+        if raw_user ~= USER_NAME or raw_pass_real ~= USER_PASS then
+            log(sender, "Sent invalid credentials")
+            rednet.send(sender, "INVALID_CREDENTIALS", PROTOCOL)
+            return false
+        end
+    else
+        if raw_user ~= USER_NAME or raw_pass ~= USER_PASS then
+            log(sender, "Sent invalid credentials")
+            rednet.send(sender, "INVALID_CREDENTIALS", PROTOCOL)
+            return false
+        end
+    end
+    table.remove(msg_split, 1)
+    table.remove(msg_split, 1)
+    log(sender, "Sent: ".. msg)
+end
+
+log("SERVER", "Started listening...")
+while true do
+    main()
 end
