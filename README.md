@@ -5,7 +5,7 @@
 <hr>
 
 ![GitHub repo size](https://img.shields.io/github/repo-size/CracX/datablock?label=Size)
-![Latest Release](https://badgen.net/badge/Latest%20release/v1.0.0/green?icon=github)
+![Latest Release](https://badgen.net/badge/Latest%20release/In%20Development/yellow?icon=github)
 
 <h1 align="center">🔎 What is DataBlockDB?</h1>
 DataBlock is a database management framework written purely in Lua and compatitable with CCTweaked mod. CCTweaked is a fork of a ComputerCraft mod and gives players the ability to work with computers in Minecraft.
