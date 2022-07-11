@@ -229,7 +229,6 @@ function command_handler(cmd)
             for key,value in pairs(_value.table) do
                 full_str = full_str..value.." "
             end
-            full_str = full_str..value.." "
             print(string.sub(full_str, 1,-2))
             full_str = ""
         end

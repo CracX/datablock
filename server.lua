@@ -128,7 +128,17 @@ function client_handler(sender, message)
 
     if message[1] == "HEADERS" then
         log(sender, "Sent HEADERS")
-        rednet.send(sender, db._headers, PROTOCOL)
+        local headers_raw = db._headers
+        local headers_parsed = {}
+        for _ =1,#headers_raw do
+            for key, value in pairs(headers_raw) do
+                if value == _ then
+                    table.insert(headers_parsed, value)
+                end
+            end
+        end
+
+        rednet.send(sender, headers_parsed, PROTOCOL)
         return true
     end
 
