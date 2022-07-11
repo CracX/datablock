@@ -132,7 +132,7 @@ function client_handler(sender, message)
         local headers_parsed = {}
         for _ =1,#headers_raw do
             for key, value in pairs(headers_raw) do
-                if value == _ then
+                if key == _ then
                     table.insert(headers_parsed, value)
                 end
             end
