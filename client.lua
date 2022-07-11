@@ -112,6 +112,13 @@ function get_headers()
     return msg
 end
 
+function print_headers()
+    for key,value in pairs(HEADERS) do
+        full_headers = full_headers..value.." "
+    end
+    print(string.sub(full_headers, 1,-2))
+end
+
 function command_handler(cmd)
     if cmd[1] == "connect" then
         if IS_CONNECTED then
@@ -180,16 +187,12 @@ function command_handler(cmd)
             return false
         end
 
+        print_headers()
+
         local full_str = ""
-        local full_headers = ""
         for key,value in pairs(msg.table) do
             full_str = full_str..value.." "
         end
-
-        for key,value in pairs(get_headers()) do
-            full_headers = full_headers..key.." "
-        end
-        print(string.sub(full_headers, 1,-2))
         print(string.sub(full_str, 1,-2))
         return true
     end
@@ -217,14 +220,8 @@ function command_handler(cmd)
             return false
         end
 
+        print_headers()
         local full_str = ""
-        local full_headers = ""
-
-
-        for key,value in pairs(get_headers()) do
-            full_headers = full_headers..key.." "
-        end
-        print(string.sub(full_headers, 1,-2))
         for _key,_value in pairs(msg) do
             for key,value in pairs(_value.table) do
                 full_str = full_str..value.." "
