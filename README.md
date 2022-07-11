@@ -14,6 +14,8 @@ While playing around with this mod, I wanted to create a Bank system for players
 
 DBDB (DataBlockDB) works with saving all the data in a comma separated fasion in any file. Think of .csv files. This pretty much IS a glorified csv file parser.
 
+![](https://raw.githubusercontent.com/deepriverproject/datablock/master/readme/get_row.gif)
+
 <h1 align="center">🛠️ Setup</h1>
 Go into your Minecraft world, open up your CC computer, and create a directory:
 
