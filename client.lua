@@ -167,17 +167,23 @@ function command_handler(cmd)
             print("[!] Usage: get_row <header> <value>")
             return false
         end
-        local full_str = ""
         send_to_host("GET_ROW_BY_HEADER "..cmd[2].." "..cmd[3])
         local c_id, msg, p = rednet.receive(PROTOCOL, 5)
-        if msg.table == nil then
+        if #msg.table == 0 then
             print("None")
             return false
         end
 
+        local full_str = ""
+        local full_headers = ""
         for key,value in pairs(msg.table) do
             full_str = full_str..key.." "
         end
+
+        for key,value in pairs(get_headers()) do
+            full_headers = full_headers..key.." "
+        end
+        print(string.sub(full_headers, 1,-2))
         print(string.sub(full_str, 1,-2))
         return true
     end
