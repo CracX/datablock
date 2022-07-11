@@ -169,6 +169,12 @@ function command_handler(cmd)
         end
         send_to_host("GET_ROW_BY_HEADER "..cmd[2].." "..cmd[3])
         local c_id, msg, p = rednet.receive(PROTOCOL, 5)
+        
+        if msg.table == nil then
+            print("None")
+            return false
+        end
+
         if #msg.table == 0 then
             print("None")
             return false
