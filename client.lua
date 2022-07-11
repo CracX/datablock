@@ -151,7 +151,7 @@ function command_handler(cmd)
         end
         local full_str = ""
         for key,value in pairs(get_headers()) do
-            full_str = full_str..key.." "
+            full_str = full_str..value.." "
         end
         print(string.sub(full_str, 1,-2))
         return true
