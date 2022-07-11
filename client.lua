@@ -194,6 +194,48 @@ function command_handler(cmd)
         return true
     end
 
+    if cmd[1] == "get_rows" then
+        if not IS_CONNECTED then
+            print("[!] You are not connected")
+            return false
+        end
+
+        if #cmd < 3 then
+            print("[!] Usage: get_rows <header> <value>")
+            return false
+        end
+        send_to_host("GET_ROWS_BY_HEADER "..cmd[2].." "..cmd[3])
+        local c_id, msg, p = rednet.receive(PROTOCOL, 5)
+        
+        if msg.tables == nil then
+            print("None")
+            return false
+        end
+
+        if #msg.tables == 0 then
+            print("None")
+            return false
+        end
+
+        local full_str = ""
+        local full_headers = ""
+
+
+        for key,value in pairs(get_headers()) do
+            full_headers = full_headers..key.." "
+        end
+        print(string.sub(full_headers, 1,-2))
+        for _key,_value in pairs(msg.tables) do
+            for key,value in pairs(_value) do
+                full_str = full_str..value.." "
+            end
+            full_str = full_str..value.." "
+            print(string.sub(full_str, 1,-2))
+            full_str = ""
+        end
+        return true
+    end
+
     print("[!] Unknown command: "..cmd[1])
     return false
 end
