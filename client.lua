@@ -113,6 +113,7 @@ function get_headers()
 end
 
 function print_headers()
+    local full_headers = ""
     for key,value in pairs(HEADERS) do
         full_headers = full_headers..value.." "
     end

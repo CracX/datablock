@@ -131,8 +131,8 @@ function client_handler(sender, message)
         local headers_parsed = {}
         for _ =1,db:table_length(db._headers) do
             for key, value in pairs(db._headers) do
-                if key == _ then
-                    table.insert(headers_parsed, value)
+                if value == _ then
+                    table.insert(headers_parsed, key)
                 end
             end
         end
