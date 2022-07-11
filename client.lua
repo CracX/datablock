@@ -207,12 +207,12 @@ function command_handler(cmd)
         send_to_host("GET_ROWS_BY_HEADER "..cmd[2].." "..cmd[3])
         local c_id, msg, p = rednet.receive(PROTOCOL, 5)
         
-        if msg.tables == nil then
+        if msg == nil then
             print("None")
             return false
         end
 
-        if #msg.tables == 0 then
+        if #msg == 0 then
             print("None")
             return false
         end
@@ -225,8 +225,8 @@ function command_handler(cmd)
             full_headers = full_headers..key.." "
         end
         print(string.sub(full_headers, 1,-2))
-        for _key,_value in pairs(msg.tables) do
-            for key,value in pairs(_value) do
+        for _key,_value in pairs(msg) do
+            for key,value in pairs(_value.table) do
                 full_str = full_str..value.." "
             end
             full_str = full_str..value.." "
