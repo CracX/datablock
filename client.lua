@@ -177,7 +177,7 @@ function command_handler(cmd)
         local full_str = ""
         local full_headers = ""
         for key,value in pairs(msg.table) do
-            full_str = full_str..key.." "
+            full_str = full_str..value.." "
         end
 
         for key,value in pairs(get_headers()) do
