@@ -98,7 +98,7 @@ To insert new data:
 ```lua
 DataBlockDB:insert(data)
 -- EXAMPLE:
-db:insert("0,John,Doe")
+db:insert({"1", "John", "Doe", "500"})
 ```
 
 <h1 align="center">⚠️ Limitations</h1>

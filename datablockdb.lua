@@ -189,7 +189,7 @@ function DataBlockDB:update_row_by_header(find_header, find_value, update_header
     if _h_id == nil then
         return false
     end
-    
+
     _h_id = nil
     for key, value in pairs(self._headers) do
         if key == update_header then
@@ -209,7 +209,7 @@ function DataBlockDB:insert(data)
     if #data ~= #self._headers then
         return false
     end
-    table.insert(self._db, data)
+    self._db[#self._db + 1] = data
     self:dump_db()
     return true
 end
