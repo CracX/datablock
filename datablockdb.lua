@@ -179,8 +179,23 @@ function DataBlockDB:update_row_by_header(find_header, find_value, update_header
     if _row == nil then
         return false
     end
+
+    for key, value in pairs(self._headers) do
+        if key == find_header then
+            _h_id = value
+        end
+    end
     if _h_id == nil then
-        return nil
+        return false
+    end
+
+    for key, value in pairs(self._headers) do
+        if key == update_header then
+            _h_id = value
+        end
+    end
+    if _h_id == nil then
+        return false
     end
 
     self._db[_row.table_id][self:get_header_id(update_header)] = update_value
