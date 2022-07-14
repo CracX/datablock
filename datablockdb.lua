@@ -176,6 +176,7 @@ end
 
 function DataBlockDB:update_row_by_header(find_header, find_value, update_header, update_value)
     local _row = self:find_row_by_header(find_header, find_value)
+    local _h_id = nil
     if _row.table == nil then
         return false
     end
@@ -188,7 +189,8 @@ function DataBlockDB:update_row_by_header(find_header, find_value, update_header
     if _h_id == nil then
         return false
     end
-
+    
+    _h_id = nil
     for key, value in pairs(self._headers) do
         if key == update_header then
             _h_id = value
