@@ -113,7 +113,7 @@ function DataBlockDB:find_row_by_header(header, header_value)
             _h_id = value
         end
     end
-    if _h_id = nil then
+    if _h_id == nil then
         return nil
     for _table_id, _table in pairs(self._db) do
         for _value_id, _value in pairs(_table) do
