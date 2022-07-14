@@ -55,34 +55,50 @@ Do note that the second parameter NEEDS to be an absolute path to your database 
 To create a library object:
 ```lua
 DataBlockDB:new(nil, database_file_path)
+-- EXAMPLE:
+db = DataBlockDB:new(nil, "/mydir/database.txt")
 ```
 To load in the database file (is done automatically):
 ```lua
 DataBlockDB:parse_db()
+-- EXAMPLE:
+db:parse_db()
 ```
 To save the loaded database table into the database file (is done automatically):
 ```lua
 DataBlockDB:dump_db()
+-- EXAMPLE:
+db:dump_db()
 ```
 To get a row by a header value:
 ```lua
 DataBlockDB:find_row_by_header(header, header_value)
+-- EXAMPLE:
+db:find_row_by_header("id", "1")
 ```
 To find multiple rows by a header value:
 ```lua
 DataBlockDB:find_rows_by_header(header, header_value)
+-- EXAMPLE:
+db:find_rows_by_header("money", "500")
 ```
 To delete a row by a header value:
 ```lua
 DataBlockDB:delete_row_by_header(header, header_value)
+-- EXAMPLE:
+db:delete_row_by_header("id", "1")
 ```
 To update a row by a header value:
 ```lua
-DataBlockDB:delete_row_by_header(find_header, find_value, update_header, update_value)
+DataBlockDB:update_row_by_header(find_header, find_value, update_header, update_value)
+-- EXAMPLE:
+db:update_row_by_header("id", "1", "first_name", "Mary")
 ```
 To insert new data:
 ```lua
 DataBlockDB:insert(data)
+-- EXAMPLE:
+db:insert("0,John,Doe")
 ```
 
 <h1 align="center">⚠️ Limitations</h1>
