@@ -206,7 +206,7 @@ function DataBlockDB:update_row_by_header(find_header, find_value, update_header
 end
 
 function DataBlockDB:insert(data)
-    if #data ~= #self._headers then
+    if #data ~= self:table_length(self._headers) then
         return false
     end
     self._db[#self._db + 1] = data
