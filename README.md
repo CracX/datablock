@@ -50,6 +50,23 @@ db = DataBlockDB:new(nil, "/mydir/database.txt")
 ```
 Do note that the second parameter NEEDS to be an absolute path to your database file.
 
+<h1 align="center">📄 Examples</h1>
+
+## Inserting and getting data
+```lua
+-- In "/mydir/database.txt" our headers are "id,first_name,last_name,money"
+
+db = DataBlockDB:new(nil, "/mydir/database.txt")
+db:insert({"1", "John", "Doe", "512"})
+
+-- NOTE: When getting data from a database, you get a table with 2 keys: table_id and table
+-- Example: data = {table_id:..., table:...}
+local data = db:find_row_by_header("id", "1")
+
+print(data.table[2])
+-- Result: John
+```
+
 <h1 align="center">📓 Usage</h1>
 
 To create a library object:
