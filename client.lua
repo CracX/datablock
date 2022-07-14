@@ -233,6 +233,31 @@ function command_handler(cmd)
         return true
     end
 
+    if cmd[1] == "get_all_rows" then
+        if not IS_CONNECTED then
+            print("[!] You are not connected")
+            return false
+        end
+
+        send_to_host("GET_ALL_ROWS")
+        local c_id, msg, p = rednet.receive(PROTOCOL, 5)
+        
+        if #msg == 0 then
+            print("None")
+            return false
+        end
+        print_headers()
+
+        for _, _table in pairs(msg) do
+            local full_str = ""
+            for __, _value in pairs(_table) do
+                full_str = full_str.._value.." "
+            end
+            print(full_str)
+        end
+        return true
+    end
+
     if cmd[1] == "delete_row" then
         if not IS_CONNECTED then
             print("[!] You are not connected")

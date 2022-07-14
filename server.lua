@@ -163,6 +163,12 @@ function client_handler(sender, message)
         return true
     end
 
+    if message[1] == "GET_ALL_ROWS" then
+        log(sender, "Sent GET_ALL_ROWS")
+        rednet.send(sender, db._db, PROTOCOL)
+        return true
+    end
+
     if message[1] == "DELETE_ROW_BY_HEADER" then
         log(sender, "Sent DELETE_ROW_BY_HEADER")
         if #message < 3 then
