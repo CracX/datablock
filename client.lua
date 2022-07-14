@@ -255,6 +255,28 @@ function command_handler(cmd)
         return true
     end
 
+    if cmd[1] == "update_row" then
+        if not IS_CONNECTED then
+            print("[!] You are not connected")
+            return false
+        end
+
+        if #cmd < 5 then
+            print("[!] Usage: update_row <header_to_find> <value_to_find> <header_to_update> <value_to_update>")
+            return false
+        end
+        send_to_host("UPDATE_ROW_BY_HEADER "..cmd[2].." "..cmd[3].." "..cmd[4].." "..cmd[5])
+        local c_id, msg, p = rednet.receive(PROTOCOL, 5)
+        
+        if msg == false then
+            print("Could not update row")
+            return false
+        end
+
+        print("Row updated")
+        return true
+    end
+
     print("[!] Unknown command: "..cmd[1])
     return false
 end
