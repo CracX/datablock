@@ -277,6 +277,28 @@ function command_handler(cmd)
         return true
     end
 
+    if cmd[1] == "insert" then
+        if not IS_CONNECTED then
+            print("[!] You are not connected")
+            return false
+        end
+
+        if #cmd < 2 then
+            print("[!] Usage: insert column1,column2,column3...")
+            return false
+        end
+        send_to_host("INSERT "..cmd[2])
+        local c_id, msg, p = rednet.receive(PROTOCOL, 5)
+        
+        if msg == false then
+            print("Could not insert data")
+            return false
+        end
+
+        print("Data inserted")
+        return true
+    end
+
     print("[!] Unknown command: "..cmd[1])
     return false
 end
