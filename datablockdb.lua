@@ -133,6 +133,9 @@ function DataBlockDB:find_rows_by_header(header, header_value)
             _h_id = value
         end
     end
+    if _h_id == nil then
+        return nil
+    end
 
     local _tables = {}
     for _table_id, _table in pairs(self._db) do
@@ -155,6 +158,9 @@ function DataBlockDB:delete_row_by_header(header, header_value)
             _h_id = value
         end
     end
+    if _h_id == nil then
+        return nil
+    end
 
     for _table_id, _table in pairs(self._db) do
         for _value_id, _value in pairs(_table) do
@@ -172,6 +178,9 @@ function DataBlockDB:update_row_by_header(find_header, find_value, update_header
     local _row = self:find_row_by_header(find_header, find_value)
     if _row == nil then
         return false
+    end
+    if _h_id == nil then
+        return nil
     end
 
     self._db[_row.table_id][self:get_header_id(update_header)] = update_value
