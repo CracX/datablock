@@ -233,6 +233,28 @@ function command_handler(cmd)
         return true
     end
 
+    if cmd[1] == "delete_row" then
+        if not IS_CONNECTED then
+            print("[!] You are not connected")
+            return false
+        end
+
+        if #cmd < 3 then
+            print("[!] Usage: delete_row <header> <value>")
+            return false
+        end
+        send_to_host("DELETE_ROW_BY_HEADER "..cmd[2].." "..cmd[3])
+        local c_id, msg, p = rednet.receive(PROTOCOL, 5)
+        
+        if msg == false then
+            print("Could not find row to delete")
+            return false
+        end
+
+        print("Row deleted")
+        return true
+    end
+
     print("[!] Unknown command: "..cmd[1])
     return false
 end
